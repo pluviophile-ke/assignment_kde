@@ -21,8 +21,12 @@ def load_image(dir_name):
     images_total = len(images_name)         # 获取图片总数目
 
     ''' 此处切换数据的尺寸(不同数据集有不同的尺寸) '''
-    # images = np.empty((576, 768, 3, images_total))      # 创建空数组，用于储存图像信息
-    images = np.empty((540, 960, 3, images_total))      # 创建空数组，用于储存图像信息
+    if train_dir[2] == '2':
+        images = np.empty((576, 768, 3, images_total))      # 创建空数组，用于储存图像信息
+        print("2023数据集")
+    else:
+        images = np.empty((540, 960, 3, images_total))      # 创建空数组，用于储存图像信息
+        print("mydata数据集")
 
     for i, img_name in enumerate(images_name):
         """
@@ -139,8 +143,8 @@ for i, h in enumerate(h_list):
         并将其二值化得到g_ij
     """
     ''' 此处可选择使用ep核或者三角核 '''
-    f_ij[:, :, i] = epanechnikov_kde(train_data, test_data, h)
-    # f_ij[:, :, i] = triangular_kde(train_data, test_data, h)
+    # f_ij[:, :, i] = epanechnikov_kde(train_data, test_data, h)
+    f_ij[:, :, i] = triangular_kde(train_data, test_data, h)
 
     ''' 固定一个h，观察不同阈值下的二值图像有什么不同（对应于第三张图） '''
     if h == 90:
